@@ -7,15 +7,25 @@ services:
     depends_on:
       - db
     environment:
+      #springboot
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
-      SPRING_FLYWAY_URL: ${SPRING_FLYWAY_URL}
+      #jpa
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA: modelviewer
+      #flyway
+      SPRING_FLYWAY_ENABLED: true
+      SPRING_FLYWAY_LOCATIONS: classpath:db/migration
+      SPRING_FLYWAY_BASELINE_ON_MIGRATE: true
       SPRING_FLYWAY_SCHEMAS: modelviewer
-      SPRING_FLYWAY_USER: ${SPRING_FLYWAY_USER}
-      SPRING_FLYWAY_PASSWORD: ${SPRING_FLYWAY_PASSWORD}
+      SPRING_FLYWAY_CREATE_SCHEMAS: true
+      #storage
       STORAGE_MODE: local
       STORAGE_PATH: /app/storage
+      #server
+      SERVER_ADDRESS: ${SERVER_ADDRESS}
+      SERVER_PORT: ${SERVER_PORT}
     volumes:
       - ./storage:/app/storage
 
