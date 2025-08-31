@@ -1,0 +1,46 @@
+services:
+  backend:
+    build: ./backend/
+    container_name: model-viewer-backend
+    ports:
+      - ${BACKEND_HOST_PORT}:${BACKEND_CONTAINER_PORT}
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      SPRING_FLYWAY_URL: ${SPRING_FLYWAY_URL}
+      SPRING_FLYWAY_SCHEMAS: modelviewer
+      SPRING_FLYWAY_USER: ${SPRING_FLYWAY_USER}
+      SPRING_FLYWAY_PASSWORD: ${SPRING_FLYWAY_PASSWORD}
+      STORAGE_MODE: local
+      STORAGE_PATH: /app/storage
+    volumes:
+      - ./storage:/app/storage
+
+  frontend:
+    build: ./frontend/
+    container_name: model-viewer-frontend
+    ports:
+      - ${FRONTEND_HOST_PORT}:${FRONTEND_CONTAINER_PORT}
+    depends_on:
+      - backend
+    environment:
+      REACT_APP_API_URL: ${REACT_APP_API_URL}
+
+  db:
+    image: postgres:17
+    container_name: model-viewer-db
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - ${POSTGRES_HOST_PORT}:${POSTGRES_CONTAINER_PORT}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

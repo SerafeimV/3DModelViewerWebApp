@@ -1,0 +1,9 @@
+CREATE TABLE models (
+	id SERIAL PRIMARY KEY,
+	filename VARCHAR(255) NOT NULL,
+	size BIGINT NOT NULL,
+	uploaded_by VARCHAR(100),
+	uploaded_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	tags TEXT[],
+	storage_path VARCHAR(512) NOT NULL
+);
