@@ -17,46 +17,45 @@ import java.util.UUID;
 
 @Service
 public class ModelViewerService {
-    private final ModelViewerRepository repo;
+	private final ModelViewerRepository repo;
 
-    @Value("${storage.path}")
-    private String storagePath;
-    @Value("${storage.mode}")
-    private String stoargeMode;
+	@Value("${storage.path}")
+	private String storagePath;
+	@Value("${storage.mode}")
+	private String stoargeMode;
 
-    public ModelViewerService(ModelViewerRepository repo) {
-        this.repo = repo;
-    }
+	public ModelViewerService(ModelViewerRepository repo) {
+		this.repo = repo;
+	}
 
-    //uploads file and saves it either on app storage or to db according to the storage mode
-    public ModelViewerFile saveFile(MultipartFile file) {
-        try {
-            Path storageDir = Paths.get(storagePath);
+	//uploads file and saves it either on app storage or to db according to the storage mode
+	public ModelViewerFile saveFile(MultipartFile file) {
+		try {
+			Path storageDir = Paths.get(storagePath);
 
-            if (Files.notExists(storageDir)) {
-                Files.createDirectories(storageDir);
-            }
+			if (Files.notExists(storageDir)) {
+				Files.createDirectories(storageDir);
+			}
 
-            String uniqueName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+			String uniqueName = UUID.randomUUID() + "_" + file.getOriginalFilename();
 
-            Path targetPath = storageDir.resolve(uniqueName);
-            Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
+			Path targetPath = storageDir.resolve(uniqueName);
+			Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
 
-            ModelViewerFile modelViewerFile = new ModelViewerFile();
-            modelViewerFile.setFilename(file.getOriginalFilename());
-            modelViewerFile.setSize(file.getSize());
-            modelViewerFile.setUploadDate(LocalDateTime.now());
-            modelViewerFile.setStoragePath(targetPath.toString());
+			ModelViewerFile modelViewerFile = new ModelViewerFile();
+			modelViewerFile.setFilename(file.getOriginalFilename());
+			modelViewerFile.setSize(file.getSize());
+			modelViewerFile.setUploadDate(LocalDateTime.now());
+			modelViewerFile.setStoragePath(targetPath.toString());
 
-            return repo.save(modelViewerFile);
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException("Failed to store file", e);
-        }
-    }
+			return repo.save(modelViewerFile);
+		}
+		catch (IOException e) {
+			throw new RuntimeException("Failed to store file", e);
+		}
+	}
 
-    public List<ModelViewerFile> listFiles() {
-        return repo.findAll();
-    }
+	public List<ModelViewerFile> listFiles() {
+		return repo.findAll();
+	}
 }

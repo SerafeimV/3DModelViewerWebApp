@@ -11,24 +11,24 @@ import java.util.List;
 @RestController
 @RequestMapping("/models")
 public class ModelViewerController {
-    private final ModelViewerService service;
+	private final ModelViewerService service;
 
-    public ModelViewerController(ModelViewerService service) {
-        this.service = service;
-    }
+	public ModelViewerController(ModelViewerService service) {
+		this.service = service;
+	}
 
-    @GetMapping("/")
-    public String hello() {
-        return "Backend is running 🚀";
-    }
+	@GetMapping("/")
+	public String hello() {
+		return "Backend is running 🚀";
+	}
 
-    @PostMapping("/addModel")
-    public ResponseEntity<ModelViewerFile> upload(@RequestParam("file") MultipartFile file) {
-        return ResponseEntity.ok(service.saveFile(file));
-    }
+	@PostMapping("/addModel")
+	public ResponseEntity<ModelViewerFile> upload(@RequestParam("file") MultipartFile file) {
+		return ResponseEntity.ok(service.saveFile(file));
+	}
 
-    @GetMapping("/getAll")
-    public List<ModelViewerFile> list() {
-        return service.listFiles();
-    }
+	@GetMapping("/getAll")
+	public List<ModelViewerFile> list() {
+		return service.listFiles();
+	}
 }
