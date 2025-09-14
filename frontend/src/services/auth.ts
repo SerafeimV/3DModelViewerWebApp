@@ -12,7 +12,6 @@ export class AuthService {
             // Handle successful login
             if (response.data?.accessToken) {
                 localStorage.setItem("token", response.data.accessToken);
-                localStorage.setItem("username", JSON.stringify(response.data.user));
             }
 
             return response.data;

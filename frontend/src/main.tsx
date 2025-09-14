@@ -2,22 +2,22 @@ import {StrictMode} from 'react'
 import {createRoot} from 'react-dom/client'
 import {createBrowserRouter, RouterProvider} from "react-router";
 
-import App from './App'
 import 'bootstrap/dist/css/bootstrap.css'
 import MainPage from "./pages/MainPage.tsx";
 import NotFoundPage from "./pages/NotFoundPage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import RegisterPage from "./pages/RegisterPage.tsx";
+import ProtectedRoute from "./components/util/ProtectedRoute.tsx";
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <App/>,
+        element: <ProtectedRoute><MainPage/></ProtectedRoute>,
         errorElement: <NotFoundPage/>
     },
     {
         path: '/app',
-        element: <MainPage/>
+        element: <ProtectedRoute><MainPage/></ProtectedRoute>
     },
     {
         path: '/login',

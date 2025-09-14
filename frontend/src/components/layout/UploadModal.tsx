@@ -33,7 +33,7 @@ function UploadModal({modalIsOpen, closeModal, modalStyle}: ModalProps) {
                 }
             });
             setFile(undefined);
-
+            console.log("Upload successful:", response);
             closeModal(true);
         } catch (err: any) {
             console.error("Upload error:", err);
