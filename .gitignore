@@ -51,6 +51,14 @@ local.properties
 # sbteclipse plugin
 .target
 
+### Security - SSL Certificates ###
+*.p12
+*.jks
+keystore.*
+*.pem
+*.key
+*.crt
+
 # Tern plugin
 .tern-project
 

@@ -26,7 +26,7 @@ services:
       #server
       SERVER_ADDRESS: ${SERVER_ADDRESS}
       SERVER_PORT: ${SERVER_PORT}
-
+      #jwt
       JWT_SECRET: ${JWT_SECRET}
       JWT_EXPIRATION: ${JWT_EXPIRATION}
     volumes:

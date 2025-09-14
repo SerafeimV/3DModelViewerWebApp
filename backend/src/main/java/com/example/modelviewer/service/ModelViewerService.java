@@ -22,14 +22,14 @@ public class ModelViewerService {
 	@Value("${storage.path}")
 	private String storagePath;
 	@Value("${storage.mode}")
-	private String stoargeMode;
+	private String storageMode;
 
 	public ModelViewerService(ModelViewerRepository repo) {
 		this.repo = repo;
 	}
 
 	//uploads file and saves it either on app storage or to db according to the storage mode
-	public ModelViewerFile saveFile(MultipartFile file) {
+	public ModelViewerFile saveFile(MultipartFile file, String username) {
 		try {
 			Path storageDir = Paths.get(storagePath);
 
@@ -47,7 +47,7 @@ public class ModelViewerService {
 			modelViewerFile.setSize(file.getSize());
 			modelViewerFile.setUploadDate(LocalDateTime.now());
 			modelViewerFile.setStoragePath(targetPath.toString());
-
+			modelViewerFile.setUploadedBy(username);
 			return repo.save(modelViewerFile);
 		}
 		catch (IOException e) {
@@ -57,5 +57,10 @@ public class ModelViewerService {
 
 	public List<ModelViewerFile> listFiles() {
 		return repo.findAll();
+	}
+
+	public ModelViewerFile getFile(Long id) {
+		return repo.findById(id)
+		           .orElse(null);
 	}
 }
