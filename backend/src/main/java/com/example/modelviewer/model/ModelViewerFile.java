@@ -21,4 +21,13 @@ public class ModelViewerFile {
 	private LocalDateTime uploadDate;
 	private String storagePath;
 
+	public String getContentType() {
+		if (filename.endsWith(".glb")) return "model/gltf-binary";
+		if (filename.endsWith(".gltf")) return "model/gltf+json";
+		if (filename.endsWith(".obj")) return "text/plain";
+		if (filename.endsWith(".fbx")) return "application/octet-stream";
+
+		// Last-resort fallback
+		return "application/octet-stream";
+	}
 }

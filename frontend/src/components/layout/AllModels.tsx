@@ -1,13 +1,17 @@
 import ListGroup from "../ui/ListGroup.tsx";
+import type {ModelFile} from "../../api/types.ts";
 
 interface AllModelsProps {
-    items: string[];
+    items: ModelFile[];
+    setOnSelect?: (file: string) => void;
+    setSelectedIndex?: (id: number) => void;
 }
 
-function AllModels({items}: AllModelsProps) {
+function AllModels({items, setOnSelect, setSelectedIndex}: AllModelsProps) {
     return (
         <>
-            <ListGroup items={items} listName={"All Models"}/>
+            <ListGroup items={items} setSelectedIndex={setSelectedIndex} setOnSelect={setOnSelect}
+                       listName={"All Models"}/>
         </>
     );
 }

@@ -12,6 +12,8 @@ Modal.setAppElement("#root");
 
 function MainPage() {
     let {models, error, loading, refresh} = useLoadModels();
+    const [selectedModel, setSelectedModel] = useState<string>("");
+    const [selectedIndex, setSelectedIndex] = useState<number>(-1);
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const closeModal = (needRerender: boolean = false) => {
@@ -41,14 +43,15 @@ function MainPage() {
         <>
             <Layout headerWithExtras={true}>
                 <div className="parent">
-                    <Renderer useEnvironment={true} modelFile={"test"}/>
+                    <Renderer useEnvironment={true} modelFile={models.at(selectedIndex)?.filename}
+                              modelUrl={selectedModel}/>
                     <div className="custom-container-all-models inline-block position-data"
                          style={{marginLeft: "1rem"}}>
                         {error ?
                             <ErrorDisplay error={error}/> :
                             loading ? <p>Loading...</p> :
-                                <AllModels
-                                    items={models.map(model => model.id + ": " + model.filename)}/>}
+                                <AllModels setSelectedIndex={setSelectedIndex} setOnSelect={setSelectedModel}
+                                           items={models}/>}
                         <div style={{marginTop: "1rem"}}>
                             <Button onClick={() => {
                                 setModalIsOpen(true)

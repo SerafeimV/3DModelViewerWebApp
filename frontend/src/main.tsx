@@ -8,6 +8,7 @@ import NotFoundPage from "./pages/NotFoundPage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import RegisterPage from "./pages/RegisterPage.tsx";
 import ProtectedRoute from "./components/util/ProtectedRoute.tsx";
+import './global.css'
 
 const router = createBrowserRouter([
     {
