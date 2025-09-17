@@ -46,7 +46,10 @@ public class ModelViewerController {
 	}
 
 	@GetMapping("/getAll")
-	public List<ModelViewerFile> list() {
+	public List<ModelViewerFile> list(Authentication auth) {
+		if (auth == null) {
+			throw new IllegalArgumentException("Authentication is null");
+		}
 		return service.listFiles();
 	}
 

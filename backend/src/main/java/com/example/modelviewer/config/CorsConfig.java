@@ -15,7 +15,7 @@ public class CorsConfig {
 					@NonNull org.springframework.web.servlet.config.annotation.CorsRegistry registry) {
 				registry.addMapping("/**")
 				        .allowedHeaders("*")
-				        .allowedOrigins("http://localhost:5174", "http://localhost:5173")
+				        .allowedOrigins("http://localhost:5174", "http://localhost:5173", "http://localhost:3000/")
 				        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
 				        .allowCredentials(true);
 			}

@@ -14,7 +14,6 @@ function Layout({children, headerWithExtras = false}: LayoutProps) {
             <div id={"page-content"} style={{marginTop: "5rem"}}>
                 {children}
             </div>
-            <hr className="rounded"/>
         </div>
     );
 }

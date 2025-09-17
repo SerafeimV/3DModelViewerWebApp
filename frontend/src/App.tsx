@@ -9,6 +9,7 @@ function App() {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        // @ts-ignore
         setIsAuthenticated(AuthService.isAuthenticated());
         setIsLoading(false);
     }, []);

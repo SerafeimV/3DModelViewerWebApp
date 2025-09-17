@@ -33,7 +33,12 @@ export class AuthService {
     }
 
     static isAuthenticated() {
-        return localStorage.getItem("token") !== null;
+        const response = apiClient.post("/api/auth/me", {}, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        }).then(response => response.status === 200);
+        return localStorage.getItem("token") !== null && response;
     }
 
     static async register({email, firstName, lastName, password, confirmPassword}: RegisterRequest) {
@@ -60,8 +65,12 @@ export class AuthService {
     }
 
     static async logout() {
+        const response = await apiClient.post("/api/auth/logout", {}, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
         localStorage.clear();
-        const response = await apiClient.post("/api/auth/logout");
         console.log(response);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.modelviewer.service;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +12,8 @@ import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
 
@@ -22,6 +25,8 @@ public class JwtService {
 
 	@Value("${jwt.expiration}")
 	private Long jwtExpiration;
+
+	private final Set<String> invalidTokens = ConcurrentHashMap.newKeySet();
 
 	public String extractUsername(String token) {
 		return extractClaim(token, Claims::getSubject);
@@ -54,13 +59,28 @@ public class JwtService {
 		           .compact();
 	}
 
-	public boolean isTokenValid(String token, UserDetails userDetails) {
-		final String username = extractUsername(token);
-		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+	public boolean isTokenValid(String token) {
+		if (token == null) return false;
+		if (invalidTokens.contains(token)) return false;
+
+		try {
+			Claims claims = extractAllClaims(token);
+			Date exp = claims.getExpiration();
+			return exp == null || exp.after(new Date());
+		}
+		catch (JwtException |
+		       IllegalArgumentException ex) {
+			// malformed, expired, unsupported, signature invalid, etc.
+			return false;
+		}
 	}
 
 	private boolean isTokenExpired(String token) {
 		return extractExpiration(token).before(new Date());
+	}
+
+	public void invalidateToken(String token) {
+		invalidTokens.add(token);
 	}
 
 	private Date extractExpiration(String token) {

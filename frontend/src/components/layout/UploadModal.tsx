@@ -13,7 +13,7 @@ interface ModalProps {
 
 function UploadModal({modalIsOpen, closeModal, modalStyle}: ModalProps) {
     const {field: file, setField: setFile, handleChange: handleFileChange} = useFileFieldChanged();
-    const [error, setError] = useState("");
+    const [, setError] = useState("");
     const [processing, setProcessing] = useState(false);
 
     const onSubmit = async (e: { preventDefault: () => void; }) => {
@@ -25,7 +25,9 @@ function UploadModal({modalIsOpen, closeModal, modalStyle}: ModalProps) {
 
         try {
             let formData = new FormData();
-            formData.append("file", file);
+            if (file) {
+                formData.append("file", file);
+            }
             let response = await apiClient.post("/models/addModel", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",

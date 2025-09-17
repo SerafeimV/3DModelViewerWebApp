@@ -43,7 +43,7 @@ function MainPage() {
         <>
             <Layout headerWithExtras={true}>
                 <div className="parent">
-                    <Renderer useEnvironment={true} modelFile={models.at(selectedIndex)?.filename}
+                    <Renderer useEnvironment={false} modelFile={models.at(selectedIndex)?.filename}
                               modelUrl={selectedModel}/>
                     <div className="custom-container-all-models inline-block position-data"
                          style={{marginLeft: "1rem"}}>
