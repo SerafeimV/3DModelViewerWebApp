@@ -26,8 +26,8 @@ public class SecurityConfig {
 	                                                                                                         Exception {
 		http
 				.csrf(AbstractHttpConfigurer::disable)
-				.authorizeHttpRequests(auth -> auth.
-						requestMatchers("/api/auth/**")
+				.authorizeHttpRequests(auth -> auth
+						.requestMatchers("/api/auth/**")
 						.permitAll()
 						.requestMatchers("/models/**")
 						.permitAll()
