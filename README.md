@@ -57,5 +57,5 @@ A simple web app for displaying 3D Models in a browser.
 
 ## TODO / Ideas
 
-1. Take a look at the security of the app
-2. Change from simple JWT to OAuth2
+1. Take a closer look at the security of the app
+2. Add user role restrictions
